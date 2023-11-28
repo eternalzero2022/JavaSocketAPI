@@ -1,9 +1,9 @@
-package org.example.message;
+package org.example.server.message;
 
 import java.util.Map;
 
 public class Request extends Message{
-    public Request(String[] line, Map<String, String> headers, String[] entityBody) {
+    public Request(String[] line, Map<String, String> headers, byte[] entityBody) {
         super(line, headers, entityBody);
     }
 

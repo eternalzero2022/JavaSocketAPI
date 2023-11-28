@@ -1,18 +1,18 @@
-package org.example.message;
+package org.example.server.message;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Message {
-    private String[] line;
-    private Map<String,String> headers;
-    private String[] entityBody;
+    private final String[] line;
+    private final Map<String,String> headers;
+    private final byte[] entityBody;
     private final MessageType messageType;
 
 
     //构造函数
-    public Message(String[] line,Map<String,String> headers,String[] entityBody)
+    public Message(String[] line,Map<String,String> headers,byte[] entityBody)
     {
         this.line = line.clone();
         this.headers = new HashMap<String,String>(headers);
@@ -30,7 +30,7 @@ public abstract class Message {
         return headers;
     }
 
-    public String[] getEntityBody() {
+    public byte[] getEntityBody() {
         return entityBody;
     }
 }
