@@ -4,14 +4,26 @@ package org.example.server.message;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 封装的报文抽象类，分为请求报文Request和响应报文Response
+ */
 public abstract class Message {
+    /**报文的开始行，分为三个部分**/
     private final String[] line;
+    /**报文的首部键值对**/
     private final Map<String,String> headers;
+    /**报文的实体主体**/
     private final byte[] entityBody;
+    /**报文的类型，请求报文为REQUEST，响应报文为RESPONSE**/
     private final MessageType messageType;
 
 
-    //构造函数
+    /**
+     * 报文类的构造函数
+     * @param line 报文的实体主体字符串数组（分为三段）
+     * @param headers 报文的首部键值对
+     * @param entityBody 报文的实体主体
+     */
     public Message(String[] line,Map<String,String> headers,byte[] entityBody)
     {
         this.line = line.clone();
@@ -35,6 +47,9 @@ public abstract class Message {
     }
 }
 
+/**
+ * 报文的类别，请求报文为REQUEST，响应报文为RESPONSE
+ */
 enum MessageType
 {
     REQUEST,

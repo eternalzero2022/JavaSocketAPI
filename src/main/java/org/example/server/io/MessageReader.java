@@ -6,6 +6,11 @@ import org.example.server.parser.MessageParser;
 import java.io.*;
 
 public class MessageReader {
+    /**
+     * 从套接字的输入流中读取一个完整的HTTP报文
+     * @param inputStream 套接字的输入流
+     * @return 读取到的报文对象
+     */
     public Message readMessage(InputStream inputStream)
     {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));

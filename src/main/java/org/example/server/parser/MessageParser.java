@@ -8,6 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MessageParser {
+    /**
+     * 将ASCII（字符串）+字节流形式的原始报文封装成一个Message报文对象
+     * @param request HTTP报文的开始行和首部行
+     * @param entityBody HTTP报文的实体主体
+     * @return 被封装的Message报文对象
+     */
     public Message parseMessage(StringBuilder request,byte[] entityBody) {
         String[] messageLine = request.toString().split("\n");
         int lineNum =messageLine.length;
