@@ -14,7 +14,7 @@ public class MessageParser {
      * @param entityBody HTTP报文的实体主体
      * @return 被封装的Message报文对象
      */
-    public Message parseMessage(StringBuilder request,byte[] entityBody) {
+    public Message parseMessage(StringBuilder request,String entityBody) {
         String[] messageLine = request.toString().split("\n");
         int lineNum =messageLine.length;
         if(lineNum == 0) return null;

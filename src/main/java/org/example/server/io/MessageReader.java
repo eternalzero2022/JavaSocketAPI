@@ -4,6 +4,7 @@ import org.example.server.message.Message;
 import org.example.server.parser.MessageParser;
 
 import java.io.*;
+import java.util.Base64;
 
 public class MessageReader {
     /**
@@ -37,7 +38,7 @@ public class MessageReader {
             inputStream.close();
             byteArrayOutputStream.close();
             //构建一个报文
-            return new MessageParser().parseMessage(builder,byteArrayOutputStream.toByteArray());
+            return new MessageParser().parseMessage(builder, Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray()));
         }catch (IOException e)
         {
             e.printStackTrace();

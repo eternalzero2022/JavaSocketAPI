@@ -6,7 +6,7 @@ import java.util.Map;
  * 响应报文
  */
 public class Response extends Message{
-    public Response(String[] line, Map<String, String> headers, byte[] entityBody) {
+    public Response(String[] line, Map<String, String> headers, String entityBody) {
         super(line, headers, entityBody);
     }
 

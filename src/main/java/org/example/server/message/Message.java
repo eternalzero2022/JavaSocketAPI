@@ -13,7 +13,7 @@ public abstract class Message {
     /**报文的首部键值对**/
     private final Map<String,String> headers;
     /**报文的实体主体**/
-    private final byte[] entityBody;
+    private final String entityBody;
     /**报文的类型，请求报文为REQUEST，响应报文为RESPONSE**/
     private final MessageType messageType;
 
@@ -22,13 +22,13 @@ public abstract class Message {
      * 报文类的构造函数
      * @param line 报文的实体主体字符串数组（分为三段）
      * @param headers 报文的首部键值对
-     * @param entityBody 报文的实体主体
+     * @param entityBody 报文的实体主体的字符串，使用Base64编码（需从二进制数据流转换）
      */
-    public Message(String[] line,Map<String,String> headers,byte[] entityBody)
+    public Message(String[] line,Map<String,String> headers,String entityBody)
     {
         this.line = line.clone();
         this.headers = new HashMap<String,String>(headers);
-        this.entityBody = entityBody.clone();
+        this.entityBody = entityBody;
         messageType = getMessageType();
     }
 
@@ -42,7 +42,7 @@ public abstract class Message {
         return headers;
     }
 
-    public byte[] getEntityBody() {
+    public String getEntityBody() {
         return entityBody;
     }
 }
