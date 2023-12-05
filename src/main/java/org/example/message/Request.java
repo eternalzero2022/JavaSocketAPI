@@ -1,4 +1,4 @@
-package org.example.server.message;
+package org.example.message;
 
 import java.util.Map;
 

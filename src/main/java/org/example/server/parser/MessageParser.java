@@ -1,8 +1,8 @@
 package org.example.server.parser;
 
-import org.example.server.message.Message;
-import org.example.server.message.Request;
-import org.example.server.message.Response;
+import org.example.message.Message;
+import org.example.message.Request;
+import org.example.message.Response;
 
 import java.util.HashMap;
 import java.util.Map;

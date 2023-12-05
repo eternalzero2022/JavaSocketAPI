@@ -1,6 +1,6 @@
-package org.example.server.io;
+package org.example.io;
 
-import org.example.server.message.Message;
+import org.example.message.Message;
 
 import java.io.OutputStream;
 

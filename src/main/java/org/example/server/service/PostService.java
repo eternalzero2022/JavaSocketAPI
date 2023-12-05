@@ -1,6 +1,6 @@
 package org.example.server.service;
 
-import org.example.server.message.Message;
+import org.example.message.Message;
 
 /**
  * 当报文是POST报文时处理报文的业务类，需要包含处理报文的方法。主要用于登录或注册。

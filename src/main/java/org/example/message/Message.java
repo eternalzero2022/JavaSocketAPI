@@ -1,4 +1,4 @@
-package org.example.server.message;
+package org.example.message;
 
 
 import java.util.HashMap;
@@ -44,6 +44,24 @@ public abstract class Message {
 
     public String getEntityBody() {
         return entityBody;
+    }
+
+    /**
+     * 将一个报文以字符串的形式表示
+     * 实体主体部分使用Base64编码表示
+     * 注意：该方法仅用于打印字符串时使用，不可直接作为报文发送
+     * @return 报文的字符串表示形式
+     */
+    @Override
+    public String toString()
+    {
+        // TODO
+        return null;
+    }
+
+    public void printMessage()
+    {
+        System.out.println(this.toString());
     }
 }
 
