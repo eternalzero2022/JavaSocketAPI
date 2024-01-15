@@ -1,7 +1,7 @@
 package org.example.io;
 
 import org.example.message.Message;
-import org.example.server.parser.MessageParser;
+import org.example.parser.MessageParser;
 
 import java.io.*;
 import java.util.Base64;

@@ -1,4 +1,4 @@
-package org.example.server.parser;
+package org.example.parser;
 
 import org.example.message.Message;
 import org.example.message.Request;
