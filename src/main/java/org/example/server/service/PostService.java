@@ -17,22 +17,22 @@ import java.util.HashMap;
  * 3. Password
  */
 public class PostService implements MethodService {
-    public static void main(String[] args) {
-        PostService postService = new PostService();
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("Type", "Register");
-        headers.put("Username", "Sprooc");
-        headers.put("Password", "123456");
-        Request req = new Request(new String[]{"PSOT", "/", "HTTP/1.1"}, headers, "");
-        Message response = postService.serve(req);
-        System.out.println(response.getEntityBody());
-        headers.put("Type", "Login");
-        headers.put("Username", "Sprooc");
-        headers.put("Password", "123456");
-        req = new Request(new String[]{"POST", "/", "HTTP/1.1"}, headers, "");
-        response = postService.serve(req);
-        System.out.println(response.getEntityBody());
-    }
+//    public static void main(String[] args) {
+//        PostService postService = new PostService();
+//        HashMap<String, String> headers = new HashMap<>();
+//        headers.put("Type", "Register");
+//        headers.put("Username", "Sprooc");
+//        headers.put("Password", "123456");
+//        Request req = new Request(new String[]{"PSOT", "/", "HTTP/1.1"}, headers, "");
+//        Message response = postService.serve(req);
+//        System.out.println(response.getEntityBody());
+//        headers.put("Type", "Login");
+//        headers.put("Username", "Sprooc");
+//        headers.put("Password", "123456");
+//        req = new Request(new String[]{"POST", "/", "HTTP/1.1"}, headers, "");
+//        response = postService.serve(req);
+//        System.out.println(response.getEntityBody());
+//    }
     /**
      * 处理POST报文。
      *
