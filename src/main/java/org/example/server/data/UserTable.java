@@ -79,7 +79,7 @@ public class UserTable {
          * @param username 用户名
          * @param ID 用户ID，由CurrentID得到
          */
-        User(String password, String username,int ID) {
+        User(String username, String password,int ID) {
             this.password = password;
             this.username = username;
             this.ID = ID;

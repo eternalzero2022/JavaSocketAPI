@@ -83,6 +83,7 @@ public class PostService implements MethodService {
         if (sessionID == null) {
             // 用户名或密码错误
             line = new String[]{"HTTP/1.1", "200", "OK"};
+            headers.put("SessionID","");
             entityBody = "Error Username of Password.";
         } else {
             // 登录成功，响应报文带有首部字段SessionID
@@ -108,10 +109,12 @@ public class PostService implements MethodService {
         if (UserTable.getInstance().addUser(username, password)) {
             // 注册成功
             line = new String[]{"HTTP/1.1", "200", "OK"};
+            headers.put("Status","Success");
             entityBody = "Register successfully!";
         } else {
             // 用户名已存在，注册失败
             line = new String[]{"HTTP/1.1", "200", "OK"};
+            headers.put("Status","Failure");
             entityBody = "Username already exists.";
         }
         return new Response(line, headers, entityBody);
