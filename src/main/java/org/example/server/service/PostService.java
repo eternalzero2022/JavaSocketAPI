@@ -17,6 +17,7 @@ import java.util.HashMap;
  * 3. Password
  */
 public class PostService implements MethodService {
+
 //    public static void main(String[] args) {
 //        PostService postService = new PostService();
 //        HashMap<String, String> headers = new HashMap<>();
