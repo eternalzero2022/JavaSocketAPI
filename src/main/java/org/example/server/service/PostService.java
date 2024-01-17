@@ -114,6 +114,5 @@ public class PostService implements MethodService {
             entityBody = "Username already exists.";
         }
         return new Response(line, headers, entityBody);
-
     }
 }
