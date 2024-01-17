@@ -33,7 +33,7 @@ public class SessionTable {
     }
 
     /**
-     * 创建一个会话，在创建会话前会先进行用户身份的验证
+     * 创建一个会话，在创建会话前会先进行用户身份的验证（相当于登录）
      * @param username 需要创建会话的用户的用户名
      * @param password 需要创建会话的用户的密码
      * @return 会话标识符，创建失败则返回null
@@ -47,6 +47,24 @@ public class SessionTable {
         sessions.add(session);
         return session.SessionID;
     }
+
+
+    /**
+     * 检查当前会话表中是否存在属于这个会话ID的会话
+     * @param sessionID 要检查的会话ID
+     * @return 会话ID是否存在于会话表中
+     */
+    public boolean hasSession(String sessionID)
+    {
+        for(Session session:sessions)
+        {
+            if(session.SessionID.equals(sessionID))
+                return true;
+        }
+        return false;
+    }
+
+
 
     /**
      * 会话类，用户登录时会在会话表中分配一个会话，用来表示用户的登录信息

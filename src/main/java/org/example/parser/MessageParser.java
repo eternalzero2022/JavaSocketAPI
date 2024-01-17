@@ -29,8 +29,12 @@ public class MessageParser {
         }
         //判断是请求报文还是响应报文
         String[] startLine = messageLine[0].split(" ",3);
-        if(startLine[0].equals("GET")||startLine[0].equals("POST"))
-            return new Request(startLine,headers,entityBody);
-        return new Response(startLine,headers,entityBody);
+//        if(startLine[0].equals("GET")||startLine[0].equals("POST"))
+//            return new Request(startLine,headers,entityBody);
+//        return new Response(startLine,headers,entityBody);
+
+        if(startLine[0].startsWith("HTTP"))
+            return new Response(startLine,headers,entityBody);
+        return new Request(startLine,headers,entityBody);
     }
 }

@@ -38,7 +38,8 @@ public class MessageReader {
             inputStream.close();
             byteArrayOutputStream.close();
             //构建一个报文，其中的实体主体将字节流转换为了base64编码
-            return new MessageParser().parseMessage(builder, Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray()));
+            //return new MessageParser().parseMessage(builder, Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray()));
+            return new MessageParser().parseMessage(builder, byteArrayOutputStream.toString());
         }catch (IOException e)
         {
             e.printStackTrace();
