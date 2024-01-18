@@ -15,31 +15,25 @@ public class MessageReader {
     public Message readMessage(InputStream inputStream)
     {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder builder = new StringBuilder();
+        StringBuilder headerBuilder = new StringBuilder();
+        StringBuilder entityBuilder = new StringBuilder();
         try
         {
             String message = reader.readLine();//读取数据
             if(message == null) return null;
-            builder.append(message).append("\r\n");
+            headerBuilder.append(message).append("\r\n");
             //如果读到空说明已经把首部读完了
             do {
                 message = reader.readLine();
                 if (message == null) return null;
-                builder.append(message).append("\r\n");
+                headerBuilder.append(message).append("\r\n");
             } while (!message.isEmpty());
             //开始读实体主体
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] b =new byte[1024];
-            int bytesRead;
-            while((bytesRead = inputStream.read(b))!=-1)
-            {
-                byteArrayOutputStream.write(b,0,bytesRead);
-            }
+            while(reader.ready())
+                entityBuilder.append(reader.readLine());
             inputStream.close();
-            byteArrayOutputStream.close();
-            //构建一个报文，其中的实体主体将字节流转换为了base64编码
-            //return new MessageParser().parseMessage(builder, Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray()));
-            return new MessageParser().parseMessage(builder, byteArrayOutputStream.toString());
+            //构建一个报文，其中的实体主体仍然为字符串，并且如果是text的MIME类型则为原来的字符串数据不变，如果是其他MIME类型则为将二进制数据进行base64编码后形成的字符串
+            return new MessageParser().parseMessage(headerBuilder, entityBuilder.toString());
         }catch (IOException e)
         {
             e.printStackTrace();
