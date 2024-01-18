@@ -55,15 +55,33 @@ public abstract class Message {
     @Override
     public String toString()
     {
-        // TODO
-        return null;
+        String message = "";
+        for(int i=0;i<getLine().length;i++){
+            message += getLine()[i];
+            if(i!=getLine().length-1){
+                message += " ";
+            }
+            else{
+                message += "\r\n";
+            }
+        }
+        for(String name:getHeaders().keySet()){
+            message += name + ":" + " ";
+            message += getHeaders().get(name) + "\r\n";
+        }
+        message += "\r\n";
+        message += getEntityBody();
+        return message;
     }
 
     public void printMessage()
     {
         System.out.println(this.toString());
     }
+
+
 }
+
 
 /**
  * 报文的类别，请求报文为REQUEST，响应报文为RESPONSE
@@ -73,3 +91,4 @@ enum MessageType
     REQUEST,
     RESPONSE
 }
+

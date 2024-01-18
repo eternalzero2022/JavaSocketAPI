@@ -3,6 +3,8 @@ package org.example.io;
 import org.example.message.Message;
 
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 public class MessageWriter {
     /**
@@ -12,6 +14,25 @@ public class MessageWriter {
      */
     public void writeMessage(OutputStream outputStream, Message messageToWrite)
     {
-        // TODO
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream));
+        String message = "";
+        for(int i=0;i<messageToWrite.getLine().length;i++){
+            message += messageToWrite.getLine()[i];
+            if(i!=messageToWrite.getLine().length-1){
+                message += " ";
+            }
+            else{
+                message += "\r\n";
+            }
+        }
+        for(String name:messageToWrite.getHeaders().keySet()){
+            message += name + ":"+" ";
+            message += messageToWrite.getHeaders().get(name) + "\r\n";
+        }
+        message += "\r\n";
+        writer.write(message);
+        writer.write(messageToWrite.getEntityBody());
+        writer.flush();
+        return;
     }
 }
