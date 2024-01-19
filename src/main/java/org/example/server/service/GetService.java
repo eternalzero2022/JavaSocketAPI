@@ -45,14 +45,16 @@ public class GetService implements MethodService{
                 UrlTable.Url.Status k = urlnode.get_Status();
                 UrlTable.Url new_url = urlnode.get_New_url();
                 if(k == UrlTable.Url.Status.temporary){//如果是临时移动
-                    String entityBody = findResource(new_url.get_url());
-                    Message message = new Response(new String[]{"HTTP/1.1", "302", "Found"}, (Map<String, String>) new HashMap<>().put("Location",new_url.get_url()), entityBody);
-                    return message;
+                    //String entityBody = findResource(new_url.get_url());
+                    Map<String,String> map = new HashMap<String,String>();
+                    map.put("Location",new_url.get_url());
+                    return new Response(new String[]{"HTTP/1.1", "302", "Found"}, map, "");
                 }
                 else{//如果是永久移动
-                    String entityBody = findResource(new_url.get_url());
-                    Message message = new Response(new String[]{"HTTP/1.1", "301", "Moved Permanently"}, (Map<String, String>) new HashMap<>().put("Location",new_url.get_url()), entityBody);
-                    return message;
+                    //String entityBody = findResource(new_url.get_url());
+                    Map<String,String> map = new HashMap<String,String>();
+                    map.put("Location",new_url.get_url());
+                    return new Response(new String[]{"HTTP/1.1", "301", "Moved Permanently"}, map, "");
                 }
 
             }
@@ -86,8 +88,7 @@ public class GetService implements MethodService{
             }
             else{
                 Base64.Encoder encoder = Base64.getEncoder();
-                String encoded = encoder.encodeToString(content);
-                return encoded;
+                return encoder.encodeToString(content);
             }
         }catch (Exception e){
             e.printStackTrace();
