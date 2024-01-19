@@ -5,7 +5,7 @@ Username:（用户名）
 Password:（密码）
 
 2 GET方法
-无其他字段
+SessionID //用于确认是否已经登录。
 
 响应报文：
 1 POST方法的响应
