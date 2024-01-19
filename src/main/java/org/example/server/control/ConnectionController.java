@@ -1,5 +1,7 @@
 package org.example.server.control;
 
+import java.net.Socket;
+
 /**
  * Runnable类
  * 相当于一个新的线程
@@ -11,6 +13,10 @@ public class ConnectionController implements Runnable{
      * 这其中需要完成每个连接需要完成的事情，即“接收报文、处理报文、发送报文”的循环
      * 这三者分别都可以调用其他包中的方法实现
      */
+    public Socket socket;
+    public ConnectionController(Socket socket){
+        this.socket=socket;
+    }
     @Override
     public void run() {
         // TODO
