@@ -15,24 +15,23 @@ public class MessageWriter {
     public void writeMessage(OutputStream outputStream, Message messageToWrite)
     {
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream));
-        String message = "";
+        StringBuilder message = new StringBuilder();
         for(int i=0;i<messageToWrite.getLine().length;i++){
-            message += messageToWrite.getLine()[i];
+            message.append(messageToWrite.getLine()[i]);
             if(i!=messageToWrite.getLine().length-1){
-                message += " ";
+                message.append(" ");
             }
             else{
-                message += "\r\n";
+                message.append("\r\n");
             }
         }
         for(String name:messageToWrite.getHeaders().keySet()){
-            message += name + ":"+" ";
-            message += messageToWrite.getHeaders().get(name) + "\r\n";
+            message.append(name).append(":").append(" ");
+            message.append(messageToWrite.getHeaders().get(name)).append("\r\n");
         }
-        message += "\r\n";
-        writer.write(message);
+        message.append("\r\n");
+        writer.write(message.toString());
         writer.write(messageToWrite.getEntityBody());
         writer.flush();
-        return;
     }
 }
