@@ -1,13 +1,14 @@
 package org.example.server.service;
-
 import org.example.message.Message;
 import org.example.message.Response;
 import org.example.server.data.SessionTable;
+import org.example.server.data.UrlTable;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 当报文是GET报文时处理报文的业务类，需要包含处理报文的方法。主要用于请求资源
@@ -37,9 +38,26 @@ public class GetService implements MethodService{
             Message message = new Response(new String[]{"HTTP/1.1", "200", "OK"}, new HashMap<>(), entityBody);
             return message;
         }
-        else{  }//如果没有找到资源
+        else{//如果没有找到资源
+            UrlTable urlTable = UrlTable.getInstance();
+            if(urlTable.getUrl(URL) != null){//如果是重定向
+                UrlTable.Url urlnode = urlTable.getUrl(URL);
+                UrlTable.Url.Status k = urlnode.get_Status();
+                UrlTable.Url new_url = urlnode.get_New_url();
+                if(k == UrlTable.Url.Status.temporary){//如果是临时移动
+                    String entityBody = findResource(new_url.get_url());
+                    Message message = new Response(new String[]{"HTTP/1.1", "302", "Found"}, (Map<String, String>) new HashMap<>().put("Location",new_url.get_url()), entityBody);
+                    return message;
+                }
+                else{//如果是永久移动
+                    String entityBody = findResource(new_url.get_url());
+                    Message message = new Response(new String[]{"HTTP/1.1", "301", "Moved Permanently"}, (Map<String, String>) new HashMap<>().put("Location",new_url.get_url()), entityBody);
+                    return message;
+                }
 
-        return null;
+            }
+            return new Response(new String[]{"HTTP/1.1", "404", "Not Found"}, new HashMap<>(), "Not Found");
+        }
     }
     private Message getErrorResponse() {
         return new Response(new String[]{"HTTP/1.1", "500", "Internal Server Error"}, new HashMap<>(), "Lack of header.");
@@ -77,3 +95,4 @@ public class GetService implements MethodService{
         return null;
     }
 }
+
