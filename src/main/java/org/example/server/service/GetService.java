@@ -24,15 +24,13 @@ public class GetService implements MethodService{
     public Message serve(Message requestMessage) {
         // TODO
         String SessionID;
-        try {
-            SessionID = requestMessage.getHeaders().get("SessionID");
-        } catch (NullPointerException e) {
+        SessionID = requestMessage.getHeaders().get("SessionID");
+        if(SessionID == null)
             return getErrorResponse();
-        }
         if (!SessionTable.getInstance().hasSession(SessionID)) {//如果没有会话
             return NotFoundSession();
         }
-        String URL = requestMessage.getLine()[1];
+        String URL = "."+requestMessage.getLine()[1];
         if(isResourceFound(URL)){
             String entityBody = findResource(URL);
             Map<String,String> headers = new HashMap<String,String>();
@@ -73,7 +71,7 @@ public class GetService implements MethodService{
         String entityBody = "Lack of header";
         Map<String,String> map = new HashMap<String,String>();
         map.put("Content-Length",String.valueOf(entityBody.getBytes().length));
-        return new Response(new String[]{"HTTP/1.1", "500", "Internal Server Error"}, new HashMap<>(), entityBody);
+        return new Response(new String[]{"HTTP/1.1", "500", "Internal Server Error"}, map, entityBody);
     }
     private Message NotFoundSession() {
         System.out.println("Can't find session in session table.");

@@ -7,6 +7,7 @@ import org.example.server.data.SessionTable;
 import org.example.server.data.UserTable;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 当报文是POST报文时处理报文的业务类，需要包含处理报文的方法。主要用于登录或注册。
@@ -47,6 +48,8 @@ public class PostService implements MethodService {
             type = requestMessage.getHeaders().get("Type");
             username = requestMessage.getHeaders().get("Username");
             password = requestMessage.getHeaders().get("Password");
+            if(type == null || username == null || password == null)
+                throw new NullPointerException("One of the three headers in POST is null");
         } catch (NullPointerException e) {
             // POST报文缺少必需的首部字段，无法完成登录或注册
             return getErrorResponse();
@@ -64,7 +67,10 @@ public class PostService implements MethodService {
      * 生成一个状态码500的响应报文
      */
     private Message getErrorResponse() {
-        return new Response(new String[]{"HTTP/1.1", "500", "Internal Server Error"}, new HashMap<>(), "Lack of header.");
+        String entityBody = "Lack of header.";
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("Content-Length",String.valueOf(entityBody.getBytes().length));
+        return new Response(new String[]{"HTTP/1.1", "500", "Internal Server Error"}, map, entityBody);
     }
 
     /**
