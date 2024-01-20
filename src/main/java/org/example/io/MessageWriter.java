@@ -32,6 +32,8 @@ public class MessageWriter {
         message.append("\r\n");
         writer.write(message.toString());
         writer.write(messageToWrite.getEntityBody());
+        writer.write("\r\n");
         writer.flush();
+        //writer.close();
     }
 }

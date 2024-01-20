@@ -35,7 +35,10 @@ public class GetService implements MethodService{
         String URL = requestMessage.getLine()[1];
         if(isResourceFound(URL)){
             String entityBody = findResource(URL);
-            Message message = new Response(new String[]{"HTTP/1.1", "200", "OK"}, new HashMap<>(), entityBody);
+            Map<String,String> headers = new HashMap<String,String>();
+            int length = entityBody == null?0:entityBody.getBytes().length;
+            headers.put("Content-Length",String.valueOf(length));
+            Message message = new Response(new String[]{"HTTP/1.1", "200", "OK"}, headers, entityBody);
             return message;
         }
         else{//如果没有找到资源
@@ -48,21 +51,29 @@ public class GetService implements MethodService{
                     //String entityBody = findResource(new_url.get_url());
                     Map<String,String> map = new HashMap<String,String>();
                     map.put("Location",new_url.get_url());
+                    map.put("Content-Length","0");
                     return new Response(new String[]{"HTTP/1.1", "302", "Found"}, map, "");
                 }
                 else{//如果是永久移动
                     //String entityBody = findResource(new_url.get_url());
                     Map<String,String> map = new HashMap<String,String>();
                     map.put("Location",new_url.get_url());
+                    map.put("Content-Length","0");
                     return new Response(new String[]{"HTTP/1.1", "301", "Moved Permanently"}, map, "");
                 }
 
             }
-            return new Response(new String[]{"HTTP/1.1", "404", "Not Found"}, new HashMap<>(), "Not Found");
+            String entityBody = "Not found";
+            Map<String,String> map = new HashMap<String,String>();
+            map.put("Content-Length",String.valueOf(entityBody.getBytes().length));
+            return new Response(new String[]{"HTTP/1.1", "404", "Not Found"}, map, entityBody);
         }
     }
     private Message getErrorResponse() {
-        return new Response(new String[]{"HTTP/1.1", "500", "Internal Server Error"}, new HashMap<>(), "Lack of header.");
+        String entityBody = "Lack of header";
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("Content-Length",String.valueOf(entityBody.getBytes().length));
+        return new Response(new String[]{"HTTP/1.1", "500", "Internal Server Error"}, new HashMap<>(), entityBody);
     }
     private Message NotFoundSession() {
         System.out.println("Can't find session in session table.");
@@ -70,6 +81,7 @@ public class GetService implements MethodService{
         HashMap<String, String> headers = new HashMap<>();
         line = new String[]{"HTTP/1.1", "200", "OK"};
         entityBody = "Please log in.";
+        headers.put("Content-Length",String.valueOf(entityBody.getBytes().length));
         return new Response(line, headers, entityBody);
     }
     private boolean isResourceFound(String URL){

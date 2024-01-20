@@ -8,6 +8,8 @@ Password:（密码）
 SessionID //用于确认是否已经登录。
 
 响应报文：
+0 所有方法共有的字段
+Content-Length:（实体主体部分一共需要多少个字节）
 1 POST方法的响应
 1.1 注册方法的响应
 Status:"Success"/"Failure"（注册成功/注册失败）

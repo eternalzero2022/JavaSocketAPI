@@ -85,12 +85,16 @@ public class PostService implements MethodService {
             line = new String[]{"HTTP/1.1", "200", "OK"};
             headers.put("SessionID","");
             entityBody = "Error Username of Password.";
+            System.out.println(entityBody);
         } else {
             // 登录成功，响应报文带有首部字段SessionID
             line = new String[]{"HTTP/1.1", "200", "OK"};
             headers.put("SessionID", sessionID);
             entityBody = "Login successfully!";
+            System.out.println(entityBody);
         }
+        int length = entityBody.getBytes().length;
+        headers.put("Content-Length",String.valueOf(length));
         return new Response(line, headers, entityBody);
     }
 
@@ -111,12 +115,16 @@ public class PostService implements MethodService {
             line = new String[]{"HTTP/1.1", "200", "OK"};
             headers.put("Status","Success");
             entityBody = "Register successfully!";
+            System.out.println(entityBody);
         } else {
             // 用户名已存在，注册失败
             line = new String[]{"HTTP/1.1", "200", "OK"};
             headers.put("Status","Failure");
             entityBody = "Username already exists.";
+            System.out.println(entityBody);
         }
+        int length = entityBody.getBytes().length;
+        headers.put("Content-Length",String.valueOf(length));
         return new Response(line, headers, entityBody);
     }
 }

@@ -31,7 +31,6 @@ public class MessageReader {
             //开始读实体主体
             while(reader.ready())
                 entityBuilder.append(reader.readLine());
-            inputStream.close();
             //构建一个报文，其中的实体主体仍然为字符串，并且如果是text的MIME类型则为原来的字符串数据不变，如果是其他MIME类型则为将二进制数据进行base64编码后形成的字符串
             return new MessageParser().parseMessage(headerBuilder, entityBuilder.toString());
         }catch (IOException e)

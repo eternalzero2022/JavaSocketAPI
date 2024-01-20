@@ -15,7 +15,7 @@ public class MessageParser {
      * @return 被封装的Message报文对象
      */
     public Message parseMessage(StringBuilder request,String entityBody) {
-        String[] messageLine = request.toString().split("\n");
+        String[] messageLine = request.toString().split("\r\n");
         int lineNum =messageLine.length;
         if(lineNum == 0) return null;
         Map<String,String> headers = new HashMap<String,String>();

@@ -15,18 +15,19 @@ public class Main {
      * 线程会自动调用ConnectionController中的run方法
      */
     public static void main(String[] args) throws IOException {
-        ExecutorService executor = Executors.newCachedThreadPool();
-        ServerSocket serverSocket=null;
-        while (true) {
-            try {
-                serverSocket = new ServerSocket(6666);
+        ExecutorService executor = Executors.newFixedThreadPool(50);
+        ServerSocket serverSocket = new ServerSocket(6666);
+        try {
+            while(true)
+            {
                 Socket socket = serverSocket.accept();
                 executor.execute(new ConnectionController(socket));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }finally {
-                if(serverSocket!=null)serverSocket.close();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            executor.shutdown();
         }
+
     }
 }
