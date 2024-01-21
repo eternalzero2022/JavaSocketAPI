@@ -1,7 +1,11 @@
 package org.example.client.connection;
 
+import org.example.io.MessageReader;
 import org.example.message.Message;
 
+
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -41,11 +45,18 @@ public class SocketConnection {
      * @param inetAddress 服务器地址
      * @param port 服务器端口号
      * @return 是否成功连接
+     * @throws IOException 
      */
     public boolean connect(InetAddress inetAddress,int port)
     {
-        // TODO
-        return false;
+        try {
+            Socket connectsocket = new Socket(inetAddress, port);
+            getInstance().socket = connectsocket;
+        } catch (IOException e) {
+            System.out.println(e);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -55,8 +66,19 @@ public class SocketConnection {
      */
     public Message sendMessage(Message message)
     {
-        // TODO
-        return null;
+        try {
+            //获取客户端的输出流
+            DataOutputStream clientoutputstream = new DataOutputStream(getInstance().socket.getOutputStream());
+            //将报文写入客户端输出流
+            String messagestr = message.toString();
+            clientoutputstream.writeBytes(messagestr);
+            //获取客户端输入流查看接收到的报文
+            MessageReader reader = new MessageReader();
+            return reader.readMessage(getInstance().socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -65,7 +87,12 @@ public class SocketConnection {
      */
     public boolean close()
     {
-        // TODO
-        return false;
+        try {
+            getInstance().socket.close();
+            return true;
+        } catch (IOException e) {
+            System.out.println(e);
+            return false;
+        }
     }
 }
