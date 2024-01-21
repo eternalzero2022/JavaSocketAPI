@@ -68,7 +68,7 @@ public class SocketConnection {
     {
         try {
             //获取客户端的输出流
-            DataOutputStream clientoutputstream = new DataOutputStream(getInstance().socket.getOutputStream());
+            DataOutputStream clientoutputstream = new DataOutputStream(socket.getOutputStream());
             //将报文写入客户端输出流
             String messagestr = message.toString();
             clientoutputstream.writeBytes(messagestr);
@@ -88,7 +88,7 @@ public class SocketConnection {
     public boolean close()
     {
         try {
-            getInstance().socket.close();
+            socket.close();
             return true;
         } catch (IOException e) {
             System.out.println(e);
