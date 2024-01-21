@@ -91,4 +91,6 @@ public class SocketManager {
             listener.doEvent(new CloseEvent(this));
     }
 
+    public void setState(boolean state) { this.state = state;}
+
 }
