@@ -1,7 +1,6 @@
 package org.example.server.service;
 
 import org.example.message.Message;
-import org.example.message.Request;
 import org.example.message.Response;
 import org.example.server.data.SessionTable;
 import org.example.server.data.UserTable;
@@ -90,7 +89,7 @@ public class PostService implements MethodService {
             // 用户名或密码错误
             line = new String[]{"HTTP/1.1", "200", "OK"};
             headers.put("SessionID","");
-            entityBody = "Error Username of Password.";
+            entityBody = "Error Username or Password.";
             System.out.println(entityBody);
         } else {
             // 登录成功，响应报文带有首部字段SessionID
