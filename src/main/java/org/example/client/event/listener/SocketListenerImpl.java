@@ -52,6 +52,7 @@ public class SocketListenerImpl implements SocketListener{
                         source.setState(true);//收到回复报文
                     }
                 }
+                source.setMessage(reponse);
             }
         }
         else {//ConnectionEvent
