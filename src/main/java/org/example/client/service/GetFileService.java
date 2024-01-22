@@ -24,6 +24,7 @@ public class GetFileService implements Service {
         if (file.exists()) {
             headers.put("If-Modified-Since", file.lastModified() + "");
         }
+        headers.put("Content-Length", "0");
         Request message = new Request(line, headers, "");
         // 打印请求报文
         System.out.println("即将请求发送报文：" + "\n" + "-".repeat(20));
