@@ -107,6 +107,18 @@ public class GetService implements MethodService{
         File file = new File(URL);
         long last_modified_time = file.lastModified();
         headers.put("Last-Modified",String.valueOf(last_modified_time));
+        if(URL.endsWith(".txt")){
+            headers.put("Content-Type","text/plain");
+            headers.put("Content-Encoding","ASCII");
+        }
+        else if(URL.endsWith(".png")){
+            headers.put("Content-Type","image/png");
+            headers.put("Content-Encoding","Base64");
+        }
+        else if(URL.endsWith(".mp3")){
+            headers.put("Content-Type","audio/mp3");
+            headers.put("Content-Encoding","Base64");
+        }
         Message message = new Response(new String[]{"HTTP/1.1", "200", "OK"}, headers, entityBody);
         return message;
     }
