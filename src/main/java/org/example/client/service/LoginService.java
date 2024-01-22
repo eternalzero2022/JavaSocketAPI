@@ -22,6 +22,7 @@ public class LoginService implements Service {
         headers.put("Type", "Login");
         headers.put("Username", username);
         headers.put("Password", password);
+        headers.put("Content-Length", "0");
         Request message = new Request(line, headers, "");
         // 打印请求报文
         System.out.println("即将发送请求报文：" + "\n" + "-".repeat(20));
