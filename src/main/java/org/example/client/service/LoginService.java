@@ -15,7 +15,7 @@ public class LoginService implements Service {
         return sessionID;
     }
 
-    public State login(String username, String password) {
+    public StateObject login(String username, String password) {
         // 构建请求报文
         String[] line = new String[]{"POST", "/", "HTTP/1.1"};
         HashMap<String, String> headers = new HashMap<>();
@@ -39,17 +39,17 @@ public class LoginService implements Service {
             if (response.getLine()[1].equals("200")) {
                 if (response.getHeaders().get("SessionID").isEmpty()) {
                     // SessionID为空，登录失败
-                    return State.FAILURE;
+                    return new StateObject(State.FAILURE,"用户名或密码错误");
                 } else {
                     // 登陆成功
                     sessionID = response.getHeaders().get("SessionID");
-                    return State.SUCCESS;
+                    return new StateObject(State.SUCCESS,"登录成功");
                 }
             } else {
-                return State.ERROR;
+                return new StateObject(State.ERROR,"登录请求出错");
             }
         } catch (NullPointerException e) {
-            return State.ERROR;
+            return new StateObject(State.ERROR,"未收到服务器响应");
         }
     }
 }

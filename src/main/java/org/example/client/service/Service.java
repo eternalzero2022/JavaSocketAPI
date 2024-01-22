@@ -11,4 +11,15 @@ public interface Service {
         FAILURE,
         ERROR
     }
+
+    public class StateObject
+    {
+        public State state;
+        public String information;
+        public StateObject(State state,String information)
+        {
+            this.state = state;
+            this.information = information;
+        }
+    }
 }

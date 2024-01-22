@@ -8,13 +8,13 @@ import org.example.message.Request;
 import java.util.HashMap;
 
 public class GetFileService implements Service {
-    public State getFile(String filePath) {
+    public StateObject getFile(String filePath) {
         // 构建报文
         String[] line = new String[]{"GET", filePath, "HTTP/1.1"};
         HashMap<String, String> headers = new HashMap<>();
         if (LoginService.getSessionID().isEmpty()) {
             // 未登录，无SessionID
-            return State.ERROR;
+            return new StateObject(State.FAILURE,"未登录，请先登录");
         } else {
             headers.put("SessionID", LoginService.getSessionID());
         }
@@ -32,11 +32,17 @@ public class GetFileService implements Service {
         response.printMessage();
         System.out.println("-".repeat(20));
 
-        if (response.getLine()[1].equals("200")) {
-            // 成功获取文件
-            return State.SUCCESS;
-        } else {
-            return State.ERROR;
+        try{
+            if (response.getLine()[1].equals("200")) {
+                // 成功获取文件
+                return new StateObject(State.SUCCESS,"成功获取文件");
+            } else {
+                return new StateObject(State.ERROR,"未找到资源");
+            }
+        }catch (NullPointerException e)
+        {
+            return new StateObject(State.ERROR,"未收到服务器响应");
         }
+
     }
 }

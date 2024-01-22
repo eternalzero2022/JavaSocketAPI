@@ -8,7 +8,7 @@ import org.example.message.Request;
 import java.util.HashMap;
 
 public class RegisterService implements Service{
-    public State register(String username,String password)
+    public StateObject register(String username,String password)
     {
         // 构建请求报文
         String[] line = new String[]{"POST", "/", "HTTP/1.1"};
@@ -33,16 +33,16 @@ public class RegisterService implements Service{
             if (response.getLine()[1].equals("200")) {
                 if (response.getHeaders().get("Status").equals("Failure")) {
                     // 注册失败
-                    return State.FAILURE;
+                    return new StateObject(State.FAILURE,"用户已被注册");
                 } else {
                     // 注册成功
-                    return State.SUCCESS;
+                    return new StateObject(State.SUCCESS,"注册成功");
                 }
             } else {
-                return State.ERROR;
+                return new StateObject(State.ERROR,"注册请求出错");
             }
         } catch (NullPointerException e) {
-            return State.ERROR;
+            return new StateObject(State.ERROR,"未收到服务器响应");
         }
     }
 }
