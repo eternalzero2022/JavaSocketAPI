@@ -32,12 +32,15 @@ public class GetService implements MethodService{
         }
         String URL = "."+requestMessage.getLine()[1];
         if(isResourceFound(URL)){
-            String entityBody = findResource(URL);
-            Map<String,String> headers = new HashMap<String,String>();
-            int length = entityBody == null?0:entityBody.getBytes().length;
-            headers.put("Content-Length",String.valueOf(length));
-            Message message = new Response(new String[]{"HTTP/1.1", "200", "OK"}, headers, entityBody);
-            return message;
+            if(requestMessage.getHeaders().get("If-Modified-Since") != null){
+                String last_modified = requestMessage.getHeaders().get("If-Modified-Since");
+                File file = new File(URL);
+                long last_modified_time = file.lastModified();
+                if(last_modified_time <= Long.parseLong(last_modified)){
+                    return Response_304();
+                }
+            }
+            return Response_file(URL);
         }
         else{//如果没有找到资源
             UrlTable urlTable = UrlTable.getInstance();
@@ -47,24 +50,15 @@ public class GetService implements MethodService{
                 UrlTable.Url new_url = urlnode.get_New_url();
                 if(k == UrlTable.Url.Status.temporary){//如果是临时移动
                     //String entityBody = findResource(new_url.get_url());
-                    Map<String,String> map = new HashMap<String,String>();
-                    map.put("Location",new_url.get_url());
-                    map.put("Content-Length","0");
-                    return new Response(new String[]{"HTTP/1.1", "302", "Found"}, map, "");
+                    return Response_302(new_url.get_url());
                 }
                 else{//如果是永久移动
                     //String entityBody = findResource(new_url.get_url());
-                    Map<String,String> map = new HashMap<String,String>();
-                    map.put("Location",new_url.get_url());
-                    map.put("Content-Length","0");
-                    return new Response(new String[]{"HTTP/1.1", "301", "Moved Permanently"}, map, "");
+                    return Response_301(new_url.get_url());
                 }
 
             }
-            String entityBody = "Not found";
-            Map<String,String> map = new HashMap<String,String>();
-            map.put("Content-Length",String.valueOf(entityBody.getBytes().length));
-            return new Response(new String[]{"HTTP/1.1", "404", "Not Found"}, map, entityBody);
+            return Response_404();
         }
     }
     private Message getErrorResponse() {
@@ -82,6 +76,41 @@ public class GetService implements MethodService{
         headers.put("Content-Length",String.valueOf(entityBody.getBytes().length));
         return new Response(line, headers, entityBody);
     }
+    private Message Response_301(String new_url){
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("Location",new_url);
+        map.put("Content-Length","0");
+        return new Response(new String[]{"HTTP/1.1", "301", "Moved Permanently"}, map, "");
+    }
+    private Message Response_302(String new_url){
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("Location",new_url);
+        map.put("Content-Length","0");
+        return new Response(new String[]{"HTTP/1.1", "302", "Found"}, map, "");
+    }
+    private Message Response_304(){
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("Content-Length","0");
+        return new Response(new String[]{"HTTP/1.1", "304", "Not Modified"}, map, "");
+    }
+    private Message Response_404(){
+        String entityBody = "Not found";
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("Content-Length",String.valueOf(entityBody.getBytes().length));
+        return new Response(new String[]{"HTTP/1.1", "404", "Not Found"}, map, entityBody);
+    }
+    private Message Response_file(String URL){
+        String entityBody = findResource(URL);
+        Map<String,String> headers = new HashMap<String,String>();
+        int length = entityBody == null?0:entityBody.getBytes().length;
+        headers.put("Content-Length",String.valueOf(length));
+        File file = new File(URL);
+        long last_modified_time = file.lastModified();
+        headers.put("Last-Modified",String.valueOf(last_modified_time));
+        Message message = new Response(new String[]{"HTTP/1.1", "200", "OK"}, headers, entityBody);
+        return message;
+    }
+
     private boolean isResourceFound(String URL){
         File file = new File(URL);
         return file.exists();
