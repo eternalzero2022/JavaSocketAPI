@@ -1,6 +1,7 @@
 package org.example.server.service;
 
 import org.example.message.Message;
+import org.example.message.Response;
 
 /**
  * 当报文既不是GET方法也不是POST方法时处理报文的业务类，主要用于返回一个405状态码的报文
@@ -14,6 +15,7 @@ public class UnknownService implements MethodService{
      */
     @Override
     public Message serve(Message requestMessage) {
-        return null;
+        Message message = new Response(new String[]{"HTTP/1.1", "405", "Method Not Allowed"}, null, "");
+        return message;
     }
 }

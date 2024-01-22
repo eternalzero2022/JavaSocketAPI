@@ -106,4 +106,3 @@ public class GetService implements MethodService{
         return null;
     }
 }
-
