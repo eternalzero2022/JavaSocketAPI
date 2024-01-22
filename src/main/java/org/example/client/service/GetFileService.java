@@ -55,9 +55,12 @@ public class GetFileService implements Service {
 
     private void creatFile(String filePath, String entityBody, String type, String encoding) {
         // 解码
-        byte[] content = entityBody.getBytes();
+        byte[] content;
         if (encoding.equals("Base64")) {
+            content = entityBody.replaceAll("\0", "").getBytes();
             content = Base64.getDecoder().decode(content);
+        } else {
+            content = entityBody.getBytes();
         }
 
         // 写入文件
