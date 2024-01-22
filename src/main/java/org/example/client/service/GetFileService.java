@@ -41,6 +41,7 @@ public class GetFileService implements Service {
         try {
             if (response.getLine()[1].equals("200")) {
                 // 成功获取文件
+                creatFile(filePath, response.getEntityBody(), response.getHeaders().get("Content-Type"), response.getHeaders().get("Content-Encoding"));
                 return new StateObject(State.SUCCESS, "成功获取文件");
             } else {
                 return new StateObject(State.ERROR, "未找到资源");
@@ -61,7 +62,11 @@ public class GetFileService implements Service {
         // 写入文件
         filePath = "./ClientResources" + filePath;
         File file = new File(filePath);
-//        if(type.equals("text/plain")) {
+        File parentFile = file.getParentFile();
+        if (!parentFile.exists()) {
+            parentFile.mkdirs();
+        }
+
         try {
             FileOutputStream write = new FileOutputStream(filePath);
             BufferedOutputStream bw = new BufferedOutputStream(write);
@@ -71,53 +76,6 @@ public class GetFileService implements Service {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        } else {
-//            ByteArrayInputStream bais = null;
-//            try {
-//                //获取图片类型
-//                String suffix = filePath.substring(filePath.lastIndexOf(".") + 1);
-//                //构建字节数组输入流
-//                bais = new ByteArrayInputStream(content);
-//                //通过ImageIO把字节数组输入流转为BufferedImage
-//                BufferedImage bufferedImage = ImageIO.read(bais);
-//                //构建文件
-//                File imageFile = new File(imageFileName);
-//                //写入生成文件
-//                ImageIO.write(bufferedImage, suffix, imageFile);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            } finally {
-//                try {
-//                    if (bais != null) {
-//                        bais.close();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-
     }
-//    private String findResource(String URL){
-//        try {
-//            File file = new File(URL);
-//            FileInputStream fis = new FileInputStream(file);
-//            byte[] content = new byte[(int)file.length()];
-//            fis.read(content);
-//            fis.close();
-//            if(URL.endsWith(".txt")){
-//                return new String(content);
-//            }
-//            else{
-//                Base64.Encoder encoder = Base64.getEncoder();
-//                return encoder.encodeToString(content);
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-//    public void main(String[] args) {
-//        String entitybody = findResource("/ServerResources/Earth.png");
-
-//    }
 }
 
