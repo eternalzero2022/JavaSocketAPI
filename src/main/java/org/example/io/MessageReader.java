@@ -17,6 +17,7 @@ public class MessageReader {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder headerBuilder = new StringBuilder();
         StringBuilder entityBuilder = new StringBuilder();
+        int length = 0;
         try
         {
             String message = reader.readLine();//读取数据
@@ -27,10 +28,23 @@ public class MessageReader {
                 message = reader.readLine();
                 if (message == null) return null;
                 headerBuilder.append(message).append("\r\n");
+                if(!message.isEmpty())
+                {
+                    String[] pair = message.split(": ",2);
+                    if(pair[0].equals("Content-Length"))
+                        length = Integer.parseInt(pair[1]);
+                }
             } while (!message.isEmpty());
             //开始读实体主体
-            while(reader.ready())
-                entityBuilder.append(reader.readLine());
+//            while(reader.ready())
+//                entityBuilder.append(reader.readLine());
+            int sum = 0;
+            while(sum < length)
+            {
+                String newBody = reader.readLine();
+                entityBuilder.append(newBody);
+                sum += newBody.getBytes().length;
+            }
             //构建一个报文，其中的实体主体仍然为字符串，并且如果是text的MIME类型则为原来的字符串数据不变，如果是其他MIME类型则为将二进制数据进行base64编码后形成的字符串
             return new MessageParser().parseMessage(headerBuilder, entityBuilder.toString());
         }catch (IOException e)
