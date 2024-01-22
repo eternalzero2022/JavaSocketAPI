@@ -61,8 +61,6 @@ public class SocketListenerImpl implements SocketListener{
             SocketManager source = (SocketManager) event.getSource();
             source.setState(socketConnection.connect(add,port));
         }
-
-
     }
 
 }
