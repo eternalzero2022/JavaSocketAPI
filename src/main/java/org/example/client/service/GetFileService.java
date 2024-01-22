@@ -5,6 +5,7 @@ import org.example.client.event.source.SocketManager;
 import org.example.message.Message;
 import org.example.message.Request;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class GetFileService implements Service {
@@ -17,6 +18,10 @@ public class GetFileService implements Service {
             return new StateObject(State.FAILURE,"未登录，请先登录");
         } else {
             headers.put("SessionID", LoginService.getSessionID());
+        }
+        File file = new File("./ClientResources" + filePath);
+        if(file.exists()) {
+            headers.put("If-Modified-Since", file.lastModified() + "");
         }
         Request message = new Request(line, headers, "");
         // 打印请求报文
