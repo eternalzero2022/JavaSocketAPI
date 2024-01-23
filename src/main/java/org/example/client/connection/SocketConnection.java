@@ -1,6 +1,7 @@
 package org.example.client.connection;
 
 import org.example.io.MessageReader;
+import org.example.io.MessageWriter;
 import org.example.message.Message;
 
 
@@ -67,11 +68,7 @@ public class SocketConnection {
     public Message sendMessage(Message message)
     {
         try {
-            //获取客户端的输出流
-            DataOutputStream clientoutputstream = new DataOutputStream(socket.getOutputStream());
-            //将报文写入客户端输出流
-            String messagestr = message.toString();
-            clientoutputstream.writeBytes(messagestr);
+            new MessageWriter().writeMessage(socket.getOutputStream(),message);
             //获取客户端输入流查看接收到的报文
             MessageReader reader = new MessageReader();
             return reader.readMessage(getInstance().socket.getInputStream());
