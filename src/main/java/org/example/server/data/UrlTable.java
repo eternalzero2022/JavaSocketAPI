@@ -10,6 +10,18 @@ public class UrlTable {
     private UrlTable()
     {
         urls = new ArrayList<Url>();
+        Url node1 = new Url("./headers.txt");
+        node1.set_New_url(new Url("/ServerResources/headers.txt"), Url.Status.temporary);
+        urls.add(node1);
+        Url node2 = new Url("./Earth.png");
+        node2.set_New_url(new Url("/ServerResources/Earth.png"), Url.Status.permanent);
+        urls.add(node2);
+        Url node3 = new Url("./AirportTakeOff.mp3");
+        node3.set_New_url(new Url("/ServerResources/AirportTakeOff.mp3"), Url.Status.permanent);
+        urls.add(node3);
+        Url node4 = new Url("./Basil.jpeg");
+        node4.set_New_url(new Url("/ServerResources/Basil.jpeg"), Url.Status.permanent);
+        urls.add(node4);
     }
     public static UrlTable getInstance()
     {
@@ -50,7 +62,7 @@ public class UrlTable {
             temporary,
             permanent
         }
-        private Status Status;
+        private static Status Status;
         public String get_url(){
             return url;
         }

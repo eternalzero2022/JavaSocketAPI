@@ -34,17 +34,20 @@ public class SocketListenerImpl implements SocketListener{
         }
         else if(event instanceof SendMessageEvent){
             SocketManager source = (SocketManager) event.getSource();
-            Message reponse = socketConnection.sendMessage(source.getMessage());//发送报文后收到的回复报文
-            if(reponse == null){
+            Message response = socketConnection.sendMessage(source.getMessage());//发送报文后收到的回复报文
+            if(response == null){
                 source.setState(false);//没有收到回复报文
             }
             else {
                 source.setState(true);//收到回复报文
-                if(reponse.getLine()[1].equals("301")||reponse.getLine()[1].equals("302")){
+                if(response.getLine()[1].equals("301")||response.getLine()[1].equals("302")){
+                    System.out.println("接收到响应报文：" + "\n" + "-".repeat(20));
+                    response.printMessage();
+                    System.out.println("-".repeat(20));
                     Message now = source.getMessage();//修改前的发送报文
-                    now.getLine()[1] = reponse.getHeaders().get("Location");//修改发送报文的路径
-                    reponse = socketConnection.sendMessage(now);//重新发送报文
-                    if(reponse == null){
+                    now.getLine()[1] = response.getHeaders().get("Location");//修改发送报文的路径
+                    response = socketConnection.sendMessage(now);//重新发送报文
+                    if(response == null){
                         source.setState(false);
                         return;//没有收到回复报文
                     }
@@ -52,7 +55,7 @@ public class SocketListenerImpl implements SocketListener{
                         source.setState(true);//收到回复报文
                     }
                 }
-                source.setMessage(reponse);
+                source.setMessage(response);
             }
         }
         else {//ConnectionEvent

@@ -47,7 +47,7 @@ public class GetService implements MethodService{
             if(urlTable.getUrl(URL) != null){//如果是重定向
                 UrlTable.Url urlnode = urlTable.getUrl(URL);
                 UrlTable.Url.Status k = urlnode.get_Status();
-                UrlTable.Url new_url = urlnode.get_New_url();
+                UrlTable.Url new_url = urlnode.find_new_url();
                 if(k == UrlTable.Url.Status.temporary){//如果是临时移动
                     //String entityBody = findResource(new_url.get_url());
                     return Response_302(new_url.get_url());
