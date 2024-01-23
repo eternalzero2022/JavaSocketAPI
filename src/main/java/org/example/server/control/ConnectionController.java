@@ -36,6 +36,7 @@ public class ConnectionController implements Runnable {
                 if (message == null) {
                     //socket.getInputStream().close();
                     socket.close();
+                    return;
                 }
                 if (message.getLine()[0].startsWith("GET")) {
                     new MessageWriter().writeMessage(socket.getOutputStream(),new GetService().serve(message));
