@@ -49,18 +49,18 @@ public class UrlTable {
      *find_new_url()函数用于查找最终的url，通过链表查询实现
      */
     public static class Url{
-        Url(String url){
-            this.url = url;
-            this.New_url = null;
-            this.Is_Valid = true;
-            this.status = null;
-        }
         private String url;
         private Url New_url;
         private boolean Is_Valid;
         public enum Status{
             temporary,
             permanent
+        }
+        Url(String url){
+            this.url = url;
+            this.New_url = null;
+            this.Is_Valid = true;
+            this.status = null;
         }
         private Status status;
         public String get_url(){
