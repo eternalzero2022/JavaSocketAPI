@@ -93,4 +93,6 @@ public class SocketManager {
 
     public void setState(boolean state) { this.state = state;}
 
+    public boolean getState(){return state;}
+
 }

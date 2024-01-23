@@ -16,10 +16,19 @@ public class GetFileControl implements ClientControl{
     public void runControl() {
         String filePath;
         Scanner scanner=new Scanner(System.in);
-        System.out.println("请输入文件路径：");
+        System.out.println("请输入资源路径（需要以斜杠开头）：");
         filePath=scanner.next();
         GetFileService getFileService =new GetFileService();
         Service.StateObject stateObject=getFileService.getFile(filePath);
-        System.out.println(stateObject.state+": "+stateObject.information);
+        //System.out.println(stateObject.state+": "+stateObject.information);
+        if(stateObject.state == Service.State.SUCCESS){
+            System.out.println("资源请求成功！成功信息："+stateObject.information);
+        }
+        else if(stateObject.state == Service.State.FAILURE){
+            System.out.println("资源请求失败！失败信息："+stateObject.information);
+        }
+        else{
+            System.out.println("请求出错！错误信息："+stateObject.information);
+        }
     }
 }

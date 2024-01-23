@@ -115,6 +115,10 @@ public class GetService implements MethodService{
             headers.put("Content-Type","image/png");
             headers.put("Content-Encoding","Base64");
         }
+        else if(URL.endsWith(".jpeg")){
+            headers.put("Content-Type","image/jpeg");
+            headers.put("Content-Encoding","Base64");
+        }
         else if(URL.endsWith(".mp3")){
             headers.put("Content-Type","audio/mp3");
             headers.put("Content-Encoding","Base64");

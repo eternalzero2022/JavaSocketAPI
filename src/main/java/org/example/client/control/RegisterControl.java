@@ -24,6 +24,15 @@ public class RegisterControl implements ClientControl{
         password=scanner.next();
         RegisterService registerService=new RegisterService();
         Service.StateObject stateObject=registerService.register(userName,password);
-        System.out.println(stateObject.state+": "+stateObject.information);
+//        System.out.println(stateObject.state+": "+stateObject.information);
+        if(stateObject.state == Service.State.SUCCESS){
+            System.out.println("注册成功");
+        }
+        else if(stateObject.state == Service.State.FAILURE){
+            System.out.println("注册失败！失败信息："+stateObject.information);
+        }
+        else{
+            System.out.println("请求出错！错误信息："+stateObject.information);
+        }
     }
 }

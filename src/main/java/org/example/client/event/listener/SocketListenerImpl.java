@@ -23,7 +23,7 @@ public class SocketListenerImpl implements SocketListener{
     public void doEvent(SocketEvent event) {
         // TODO
         SocketConnection socketConnection = SocketConnection.getInstance();
-        if(CloseEvent.class.isInstance(event)){
+        if(event instanceof CloseEvent){
             SocketManager source = (SocketManager) event.getSource();
             if(socketConnection.close()){
                 source.setState(false);
@@ -32,7 +32,7 @@ public class SocketListenerImpl implements SocketListener{
                 source.setState(true);// 关闭失败
             }
         }
-        else if(SendMessageEvent.class.isInstance(event)){
+        else if(event instanceof SendMessageEvent){
             SocketManager source = (SocketManager) event.getSource();
             Message reponse = socketConnection.sendMessage(source.getMessage());//发送报文后收到的回复报文
             if(reponse == null){

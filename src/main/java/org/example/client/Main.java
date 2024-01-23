@@ -20,12 +20,18 @@ public class Main {
         try {
             SocketManager manager=new SocketManager(new SocketListenerImpl());
             manager.startConnection(InetAddress.getByName("127.0.0.1"),6666);
+            if(!manager.getState())
+            {
+                //连接失败
+                System.out.println("连接失败");
+                return;
+            }
             System.out.println("连接成功");
             Scanner scanner=new Scanner(System.in);
             String command;
             boolean close=true;
             while (close){
-                System.out.println("请输入命令（1：登录；2：注册；3：发送数据；4：断开连接）");
+                System.out.println("请输入命令（1：登录；2：注册；3：请求资源；4：断开连接）");
                 command=scanner.next();
                 switch (command){
                     case "1":new LoginControl().runControl();break;

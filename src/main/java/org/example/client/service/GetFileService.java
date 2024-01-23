@@ -43,9 +43,11 @@ public class GetFileService implements Service {
             if (response.getLine()[1].equals("200")) {
                 // 成功获取文件
                 creatFile(filePath, response.getEntityBody(), response.getHeaders().get("Content-Type"), response.getHeaders().get("Content-Encoding"));
-                return new StateObject(State.SUCCESS, "成功获取文件");
-            } else {
-                return new StateObject(State.ERROR, "未找到资源");
+                return new StateObject(State.SUCCESS, "成功获取文件，资源已被存放在ClientResources文件夹中");
+            } else if(response.getLine()[1].equals("304")){
+                return new StateObject(State.SUCCESS, "客户端已缓存该文件，资源已被存放在ClientResources文件夹中");
+            }else{
+                return new StateObject(State.ERROR,"未找到资源");
             }
         } catch (NullPointerException e) {
             return new StateObject(State.ERROR, "未收到服务器响应");
