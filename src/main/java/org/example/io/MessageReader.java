@@ -42,9 +42,10 @@ public class MessageReader {
             while(sum < length)
             {
                 char[] newBody = new char[length];
-                int hasRead = reader.read(newBody,0,length);
-                entityBuilder.append(newBody);
-                sum += hasRead;
+                reader.read(newBody,0,length);
+                String newBodyStr = new String(newBody);
+                entityBuilder.append(newBodyStr);
+                sum += newBodyStr.getBytes().length;
             }
             //构建一个报文，其中的实体主体仍然为字符串，并且如果是text的MIME类型则为原来的字符串数据不变，如果是其他MIME类型则为将二进制数据进行base64编码后形成的字符串
             return new MessageParser().parseMessage(headerBuilder, entityBuilder.toString());
