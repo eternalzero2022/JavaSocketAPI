@@ -53,7 +53,7 @@ public class UrlTable {
             this.url = url;
             this.New_url = null;
             this.Is_Valid = true;
-            this.Status = null;
+            this.status = null;
         }
         private String url;
         private Url New_url;
@@ -62,7 +62,7 @@ public class UrlTable {
             temporary,
             permanent
         }
-        private static Status Status;
+        private Status status;
         public String get_url(){
             return url;
         }
@@ -73,15 +73,15 @@ public class UrlTable {
             return Is_Valid;
         }
         public Status get_Status(){
-            return Status;
+            return status;
         }
         public void set_url(String url){
             this.url = url;
         }
-        public void set_New_url(Url New_url,Status Status){
+        public void set_New_url(Url New_url,Status status){
             this.New_url = New_url;
             this.Is_Valid = false;
-            this.Status = Status;
+            this.status = status;
         }
         public Url find_new_url(){
             Url url = this;
