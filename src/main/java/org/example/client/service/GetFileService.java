@@ -27,7 +27,7 @@ public class GetFileService implements Service {
         headers.put("Content-Length", "0");
         Request message = new Request(line, headers, "");
         // 打印请求报文
-        System.out.println("即将请求发送报文：" + "\n" + "-".repeat(20));
+        System.out.println("即将发送请求报文：" + "\n" + "-".repeat(20));
         message.printMessage();
         System.out.println("-".repeat(20));
         // 发送并接收报文
