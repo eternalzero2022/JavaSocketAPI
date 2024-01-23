@@ -27,7 +27,7 @@ public class RegisterService implements Service{
         socketManager.sendMessage(message);
         Message response = socketManager.getMessage();
         // 打印响应报文
-        System.out.println("接收到响应报文报文：" + "\n" + "-".repeat(20));
+        System.out.println("接收到响应报文：" + "\n" + "-".repeat(20));
         response.printMessage();
         System.out.println("-".repeat(20));
         try {
