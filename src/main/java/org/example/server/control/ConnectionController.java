@@ -5,6 +5,7 @@ import org.example.io.MessageWriter;
 import org.example.message.Message;
 import org.example.server.service.GetService;
 import org.example.server.service.PostService;
+import org.example.server.service.UnknownService;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -40,8 +41,10 @@ public class ConnectionController implements Runnable {
                 }
                 if (message.getLine()[0].startsWith("GET")) {
                     new MessageWriter().writeMessage(socket.getOutputStream(),new GetService().serve(message));
-                }else {
+                }else if(message.getLine()[0].startsWith("POST")){
                     new MessageWriter().writeMessage(socket.getOutputStream(),new PostService().serve(message));
+                }else {
+                    new MessageWriter().writeMessage(socket.getOutputStream(),new UnknownService().serve(message));
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

@@ -31,7 +31,7 @@ public class Main {
             String command;
             boolean close=true;
             while (close){
-                System.out.println("请输入命令（1：登录；2：注册；3：请求资源；4：断开连接）");
+                System.out.println("请输入需要使用的服务（1：登录；2：注册；3：请求资源；4：断开连接）");
                 command=scanner.next();
                 switch (command){
                     case "1":new LoginControl().runControl();break;

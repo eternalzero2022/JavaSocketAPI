@@ -3,6 +3,9 @@ package org.example.server.service;
 import org.example.message.Message;
 import org.example.message.Response;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 当报文既不是GET方法也不是POST方法时处理报文的业务类，主要用于返回一个405状态码的报文
  * 可以自行添加其他函数
@@ -15,7 +18,9 @@ public class UnknownService implements MethodService{
      */
     @Override
     public Message serve(Message requestMessage) {
-        Message message = new Response(new String[]{"HTTP/1.1", "405", "Method Not Allowed"}, null, "");
+        Map<String,String> headers = new HashMap<String,String>();
+        headers.put("Content-Length","0");
+        Message message = new Response(new String[]{"HTTP/1.1", "405", "Method Not Allowed"}, headers, "");
         return message;
     }
 }
